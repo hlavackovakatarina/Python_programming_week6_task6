@@ -2,61 +2,76 @@ LOWER_ALPHABETS = "abcdefghijklmnopqrstuvwxyz"
 UPPER_ALPHABETS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 
-def main():
-    print("Program starting.\n")
-    rows = collectingWords()
-    cipher = ciphering(rows)
-    savingCipheredText(cipher)
-    print("Program ending.")
 
-def shiftCharacter():
+def writeFile(Filename: str, Content: str):
+    with open(Filename, "w") as file:
+        file.write(Content)
+
+
+def askRows():
     print("Collecting plain text rows for ciphering.")
-    row = input("Insert row(empty stops): ")
+
     rows = ""
+    row = input("Insert row(empty stops): ")
+
     while row != "":
         rows += row + "\n"
         row = input("Insert row(empty stops): ")
-    
-    return rows    
+
+    return rows.rstrip("\n")
 
 
-def rot13(rows):
-    print("\n#### Ciphered text ####")
+def shiftCharacter(Character: str, Alphabets: str, Shift: int = 13):
 
+    for i in range(len(Alphabets)):
+        if Character == Alphabets[i]:
+            newPosition = i + Shift
+
+            if newPosition >= 26:
+                newPosition = newPosition - 26
+
+            return Alphabets[newPosition]
+
+    return Character
+
+
+def rot13(Content: str):
     cipher = ""
 
-    for row in rows.split("\n"):
-        if row != "":
-            cipherRow = ""
+    for character in Content:
+        if character in LOWER_ALPHABETS:
+            cipher += shiftCharacter(character, LOWER_ALPHABETS)
 
-            for character in row:
-                if character in LOWER_ALPHABETS:
-                    position = LOWER_ALPHABETS.index(character)
-                    newCharacter = LOWER_ALPHABETS[(position + 13) % 26]
+        elif character in UPPER_ALPHABETS:
+            cipher += shiftCharacter(character, UPPER_ALPHABETS)
 
-                elif character in UPPER_ALPHABETS:
-                    position = UPPER_ALPHABETS.index(character)
-                    newCharacter = UPPER_ALPHABETS[(position + 13) % 26]
+        else:
+            cipher += character
 
-                else:
-                    newCharacter = character
-
-                cipherRow += newCharacter
-
-            cipher += cipherRow + "\n"
-    print(cipher)
-    print("\n#### Ciphered text ####")
     return cipher
 
-def writeFile(cipher):
+
+def main():
+    print("Program starting.\n")
+
+    rows = askRows()
+
+    cipher = rot13(rows)
+
+    print("\n#### Ciphered text ####")
+    print(cipher)
+    print("\n#### Ciphered text ####")
+
     filename = input("Insert filename to save: ")
-    if filename == "\n" or filename == "":
+
+    if filename == "":
         print("File name not defined.")
         print("Aborting save operation.")
     else:
-        with open(filename, 'w') as file:
-            file.write(cipher)
+        writeFile(filename, cipher)
         print("Ciphered text saved!")
 
-main()
+    print("Program ending.")
 
+
+main()
