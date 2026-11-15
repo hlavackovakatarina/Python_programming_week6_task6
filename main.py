@@ -35,7 +35,6 @@ def ciphering(rows):
                     for i in range(len(LOWER_ALPHABETS)):
                         if LOWER_ALPHABETS[i] == character:
                             position = i
-                            break
                     newCharacter = LOWER_ALPHABETS[(position + 13) % 26]
 
                 elif character in UPPER_ALPHABETS:
@@ -43,7 +42,6 @@ def ciphering(rows):
                     for i in range(len(UPPER_ALPHABETS)):
                         if UPPER_ALPHABETS[i] == character:
                             position = i
-                            break
                     newCharacter = UPPER_ALPHABETS[(position + 13) % 26]
 
                 else:
