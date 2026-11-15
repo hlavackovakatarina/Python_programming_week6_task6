@@ -6,7 +6,7 @@ def main():
     print("Program starting.\n")
     rows = collectingWords()
     cipher = ciphering(rows)
-    writeFile(cipher)
+    savingCipheredText(cipher)
     print("Program ending.")
 
 def collectingWords():
@@ -25,7 +25,11 @@ def ciphering(rows):
 
     cipher = ""
 
-    for character in row:
+    for row in rows.split("\n"):
+        if row != "":
+            cipherRow = ""
+
+            for character in row:
                 if character in LOWER_ALPHABETS:
                     # Find position manually without .index()
                     position = 0
@@ -54,7 +58,7 @@ def ciphering(rows):
     print("\n#### Ciphered text ####")
     return cipher
 
-def writeFile(cipher):
+def savingCipheredText(cipher):
     filename = input("Insert filename to save: ")
     if filename == "\n" or filename == "":
         print("File name not defined.")
@@ -65,4 +69,3 @@ def writeFile(cipher):
         print("Ciphered text saved!")
 
 main()
-
