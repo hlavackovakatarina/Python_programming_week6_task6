@@ -25,17 +25,23 @@ def ciphering(rows):
 
     cipher = ""
 
-    for row in rows.split("\n"):
-        if row != "":
-            cipherRow = ""
-
-            for character in row:
+    for character in row:
                 if character in LOWER_ALPHABETS:
-                    position = LOWER_ALPHABETS.index(character)
+                    # Find position manually without .index()
+                    position = 0
+                    for i in range(len(LOWER_ALPHABETS)):
+                        if LOWER_ALPHABETS[i] == character:
+                            position = i
+                            break
                     newCharacter = LOWER_ALPHABETS[(position + 13) % 26]
 
                 elif character in UPPER_ALPHABETS:
-                    position = UPPER_ALPHABETS.index(character)
+                    # Find position manually without .index()
+                    position = 0
+                    for i in range(len(UPPER_ALPHABETS)):
+                        if UPPER_ALPHABETS[i] == character:
+                            position = i
+                            break
                     newCharacter = UPPER_ALPHABETS[(position + 13) % 26]
 
                 else:
